@@ -1,76 +1,73 @@
 # NeanderX
 
-Programa: Somando Valores Armazenados
-📌 Descrição
+Somando Valores Armazenados
+Este programa em linguagem de montagem é um exemplo simples que realiza a soma de dois valores de entrada e exibe o resultado. O código foi escrito para um sistema que usa uma arquitetura de CPU com um Acumulador (AC) e portas de entrada e saída.
 
-Este programa em Assembly para o processador NeanderX realiza a leitura de dois valores inseridos pelo usuário via teclado, soma esses valores e exibe o resultado no visor.
+Funcionalidades
+Entrada de Dados: Lê dois valores numéricos inseridos pelo usuário através de uma porta de entrada (IN 00).
 
-O fluxo do programa é dividido em três partes principais:
+Soma: Armazena os dois valores, soma-os e salva o resultado em uma variável.
 
-Leitura do primeiro valor.
+Saída de Dados: Exibe o resultado da soma em um visor ou porta de saída (OUT 00).
 
-Leitura do segundo valor.
+Como o Código Funciona
+Declaração de Variáveis: As variáveis X, Y, e Z são alocadas em endereços de memória específicos para armazenar o primeiro valor, o segundo valor e o resultado, respectivamente.
 
-Cálculo da soma e exibição do resultado.
+Primeiro Loop (LOOP1): O programa entra em um loop infinito esperando por uma entrada de teclado. Assim que um valor é lido, ele é armazenado na variável X.
 
-⚙️ Funcionamento
+Segundo Loop (LOOP2): De forma semelhante, o programa espera pela entrada do segundo valor, que é armazenado na variável Y.
 
-O programa utiliza as variáveis X, Y e Z, armazenadas nos endereços de memória 128, 129 e 130.
+Soma (LDA X e ADD Y): O valor de X é carregado no Acumulador (AC), e em seguida o valor de Y é somado a ele. O resultado é então armazenado na variável Z.
 
-X: primeiro valor digitado.
+Terceiro Loop (LOOP3): O programa espera por um novo comando para exibir o resultado, que é então carregado do Z e enviado para a saída.
 
-Y: segundo valor digitado.
+Fim do Programa (HLT): O programa é finalizado.
 
-Z: resultado da soma.
+Estrutura do Código
+Snippet de código
 
-O código conta com três loops de espera para garantir que os valores sejam lidos corretamente antes de prosseguir.
+; Declaração de variáveis
+X       EQU 128
+Y       EQU 129
+Z       EQU 130
 
-Etapas:
+; Início do programa
+ORG 0
 
-LOOP1 – Espera e lê o primeiro valor digitado, armazenando em X.
+; Loop para ler o primeiro valor
+LOOP1:
+    IN   01
+    ADD  ESPERA
+    JZ   LOOP1
+    IN   00
+    STA  X
+    OUT  00
 
-LOOP2 – Espera e lê o segundo valor digitado, armazenando em Y.
+; Loop para ler o segundo valor
+LOOP2:
+    IN   01
+    ADD  ESPERA
+    JZ   LOOP2
+    IN   00
+    STA  Y
+    OUT  00
 
-Soma – O acumulador (AC) carrega o valor de X, soma com Y e guarda o resultado em Z.
+; Soma X + Y
+    LDA  X
+    ADD  Y
+    STA  Z
 
-LOOP3 – Espera e, ao receber sinal, mostra o valor de Z no visor.
+; Loop para mostrar o resultado
+LOOP3:
+    IN   01
+    ADD  ESPERA
+    JZ   LOOP3
+    LDA  Z
+    OUT  00
+    HLT
 
-🧾 Instruções Importantes
+; Constante de espera
+ESPERA: DB 0
 
-IN 01: Verifica se há entrada disponível.
-
-IN 00: Lê o valor do teclado.
-
-OUT 00: Exibe valor no visor.
-
-STA: Armazena valor do AC em memória.
-
-LDA: Carrega valor da memória no AC.
-
-ADD: Soma o valor da memória ao AC.
-
-JZ: Pula para o endereço se AC = 0.
-
-HLT: Finaliza a execução.
-
-📊 Exemplo de Execução
-
-Usuário digita 5 → armazenado em X.
-
-Usuário digita 3 → armazenado em Y.
-
-O programa calcula 5 + 3 = 8.
-
-Resultado 8 é exibido no visor.
-
-🏗 Estrutura do Código
-
-Declaração de variáveis (X, Y, Z).
-
-Loops de entrada (LOOP1, LOOP2, LOOP3).
-
-Soma dos valores.
-
-Exibição do resultado.
-
-Constante de espera (ESPERA).
+; Fim do arquivo
+END LOOP1
